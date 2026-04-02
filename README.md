@@ -1,8 +1,8 @@
-# ms365-email-cli MCP Server
+# @injaan.dev/ms365-email-cli-mcp
 
 Model Context Protocol (MCP) server wrapper for `ms365-email-cli`.
 
-This server exposes mailbox operations as MCP tools and executes the local `ms365-email-cli` command under the hood.
+This package exposes mailbox operations as MCP tools and executes the local `ms365-email-cli` command under the hood.
 
 ## Prerequisites
 
@@ -12,14 +12,30 @@ This server exposes mailbox operations as MCP tools and executes the local `ms36
 
 ## Install
 
+Local project install:
+
 ```bash
 npm install
 ```
 
-## Run
+Global CLI install from npm:
 
 ```bash
-node index.js
+npm install -g @injaan.dev/ms365-email-cli-mcp
+```
+
+## Run
+
+From source:
+
+```bash
+npm start
+```
+
+From global install:
+
+```bash
+ms365-email-cli-mcp
 ```
 
 The server uses stdio transport and is intended to be launched by an MCP-compatible client.
@@ -61,3 +77,30 @@ The server uses stdio transport and is intended to be launched by an MCP-compati
   }
 }
 ```
+
+## Publish Checklist
+
+1. Authenticate with npm:
+
+   ```bash
+   npm login
+   ```
+
+2. Verify the package contents:
+
+   ```bash
+   npm pack --dry-run
+   ```
+
+3. Publish:
+
+   ```bash
+   npm publish
+   ```
+
+4. For updates, bump version first:
+
+   ```bash
+   npm version patch
+   npm publish
+   ```

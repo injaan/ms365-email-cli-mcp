@@ -1,14 +1,39 @@
 {
-  "name": "ms365-mcp-server",
+  "name": "@injaan.dev/ms365-email-cli-mcp",
   "version": "1.0.0",
+  "description": "MCP server wrapper around ms365-email-cli for mailbox operations.",
   "main": "index.js",
+  "bin": "./index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "lint": "node --check index.js",
+    "prepack": "npm run lint",
+    "test": "node -e \"console.log('No tests specified')\""
   },
-  "keywords": [],
+  "files": [
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "ms365",
+    "email",
+    "cli"
+  ],
   "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/injaan/ms365-email-cli-mcp.git"
+  },
   "license": "ISC",
-  "description": "",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0"
   }
