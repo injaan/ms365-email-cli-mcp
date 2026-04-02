@@ -1,6 +1,6 @@
 {
   "name": "@injaan.dev/ms365-email-cli-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server wrapper around ms365-email-cli for mailbox operations.",
   "main": "index.js",
   "bin": "./index.js",
