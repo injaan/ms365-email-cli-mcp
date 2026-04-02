@@ -60,17 +60,17 @@ Add the server (stdio):
 
 ```bash
 # If installed globally
-claude mcp add --transport stdio ms365-email -- ms365-email-cli-mcp
+claude mcp add --transport stdio ms365-email-cli -- ms365-email-cli-mcp
 
 # Or run from source
-claude mcp add --transport stdio ms365-email -- node /absolute/path/to/ms365-email-cli-mcp/index.js
+claude mcp add --transport stdio ms365-email-cli -- node /absolute/path/to/ms365-email-cli-mcp/index.js
 ```
 
 Useful management commands:
 
 ```bash
 claude mcp list
-claude mcp get ms365-email
+claude mcp get ms365-email-cli
 ```
 
 If you prefer shared project config, Claude Code can also use a project `.mcp.json`:
@@ -78,7 +78,7 @@ If you prefer shared project config, Claude Code can also use a project `.mcp.js
 ```json
 {
   "mcpServers": {
-    "ms365-email": {
+    "ms365-email-cli": {
       "type": "stdio",
       "command": "ms365-email-cli-mcp"
     }
@@ -92,20 +92,20 @@ Option A - add via CLI:
 
 ```bash
 # If installed globally
-codex mcp add ms365-email -- ms365-email-cli-mcp
+codex mcp add ms365-email-cli -- ms365-email-cli-mcp
 
 # Or run from source
-codex mcp add ms365-email -- node /absolute/path/to/ms365-email-cli-mcp/index.js
+codex mcp add ms365-email-cli -- node /absolute/path/to/ms365-email-cli-mcp/index.js
 ```
 
 Option B - add in `~/.codex/config.toml` (or project `.codex/config.toml`):
 
 ```toml
-[mcp_servers."ms365-email"]
+[mcp_servers."ms365-email-cli"]
 command = "ms365-email-cli-mcp"
 
 # Alternative source-based form:
-# [mcp_servers."ms365-email"]
+# [mcp_servers."ms365-email-cli"]
 # command = "node"
 # args = ["/absolute/path/to/ms365-email-cli-mcp/index.js"]
 ```
@@ -123,7 +123,7 @@ Create `.vscode/mcp.json` in your workspace (or use MCP: Open User Configuration
 ```json
 {
   "servers": {
-    "ms365-email": {
+    "ms365-email-cli": {
       "type": "stdio",
       "command": "ms365-email-cli-mcp"
     }
@@ -136,7 +136,7 @@ Source-based alternative:
 ```json
 {
   "servers": {
-    "ms365-email": {
+    "ms365-email-cli": {
       "type": "stdio",
       "command": "node",
       "args": ["/absolute/path/to/ms365-email-cli-mcp/index.js"]
@@ -148,7 +148,7 @@ Source-based alternative:
 Then in VS Code:
 
 1. Run **MCP: List Servers** from Command Palette.
-2. Start/trust `ms365-email`.
+2. Start/trust `ms365-email-cli`.
 3. Open Chat and use the tools.
 
 ### Quick verification prompt (any client)

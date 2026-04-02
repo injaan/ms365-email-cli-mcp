@@ -10,7 +10,7 @@ const {
 const { execSync } = require("child_process");
 
 const server = new Server(
-  { name: "ms365-email", version: "1.0.0" },
+  { name: "ms365-email-cli", version: "1.0.0" },
   {
     capabilities: { tools: {} },
   },
