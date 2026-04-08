@@ -7,7 +7,7 @@ const {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } = require("@modelcontextprotocol/sdk/types.js");
-const { execSync } = require("child_process");
+const { execFileSync } = require("child_process");
 
 const server = new Server(
   { name: "ms365-email-cli", version: "1.0.0" },
@@ -236,10 +236,6 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
   ],
 }));
 
-function shellEscape(str) {
-  return String(str).replace(/'/g, "'\\''");
-}
-
 function normalizeEmailList(value) {
   if (!value) return [];
 
@@ -253,65 +249,65 @@ function normalizeEmailList(value) {
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args = {} } = request.params;
-  let cmd = "ms365-email-cli";
+  const cmdArgs = ["ms365-email-cli"];
 
   try {
     if (name === "list_emails") {
-      cmd += " list";
-      if (args.count) cmd += ` -n ${args.count}`;
+      cmdArgs.push("list");
+      if (args.count) cmdArgs.push("-n", String(args.count));
     } else if (name === "list_unread_emails") {
-      cmd += " unread";
-      if (args.count) cmd += ` -n ${args.count}`;
+      cmdArgs.push("unread");
+      if (args.count) cmdArgs.push("-n", String(args.count));
     } else if (name === "read_email") {
-      cmd += ` read '${shellEscape(args.id)}'`;
+      cmdArgs.push("read", args.id);
     } else if (name === "thread") {
-      cmd += ` thread '${shellEscape(args.id)}'`;
+      cmdArgs.push("thread", args.id);
     } else if (name === "mark_read") {
-      cmd += ` mark-read '${shellEscape(args.id)}'`;
+      cmdArgs.push("mark-read", args.id);
     } else if (name === "search_emails") {
-      cmd += " search";
-      if (args.query) cmd += ` -q '${shellEscape(args.query)}'`;
-      if (args.from) cmd += ` --from '${shellEscape(args.from)}'`;
-      if (args.subject) cmd += ` --subject '${shellEscape(args.subject)}'`;
-      if (args.since) cmd += ` --since '${shellEscape(args.since)}'`;
-      if (args.folder) cmd += ` --folder '${shellEscape(args.folder)}'`;
-      if (args.count) cmd += ` -n ${args.count}`;
+      cmdArgs.push("search");
+      if (args.query) cmdArgs.push("-q", args.query);
+      if (args.from) cmdArgs.push("--from", args.from);
+      if (args.subject) cmdArgs.push("--subject", args.subject);
+      if (args.since) cmdArgs.push("--since", args.since);
+      if (args.folder) cmdArgs.push("--folder", args.folder);
+      if (args.count) cmdArgs.push("-n", String(args.count));
     } else if (name === "send_email") {
-      cmd += ` send -t '${shellEscape(args.to)}' -s '${shellEscape(args.subject)}' -b '${shellEscape(args.body)}'`;
+      cmdArgs.push("send", "-t", args.to, "-s", args.subject, "-b", args.body);
       const ccRecipients = normalizeEmailList(args.cc);
       for (const cc of ccRecipients) {
-        cmd += ` -c '${shellEscape(cc)}'`;
+        cmdArgs.push("-c", cc);
       }
-      if (args.html) cmd += " --html";
+      if (args.html) cmdArgs.push("--html");
       if (args.attachments && args.attachments.length > 0) {
         for (const file of args.attachments) {
-          cmd += ` -a '${shellEscape(file)}'`;
+          cmdArgs.push("-a", file);
         }
       }
     } else if (name === "reply") {
-      cmd += ` reply '${shellEscape(args.id)}' -b '${shellEscape(args.body)}'`;
-      if (args.html) cmd += " --html";
+      cmdArgs.push("reply", args.id, "-b", args.body);
+      if (args.html) cmdArgs.push("--html");
       if (args.attachments && args.attachments.length > 0) {
         for (const file of args.attachments) {
-          cmd += ` -a '${shellEscape(file)}'`;
+          cmdArgs.push("-a", file);
         }
       }
     } else if (name === "reply_all") {
-      cmd += ` reply-all '${shellEscape(args.id)}' -b '${shellEscape(args.body)}'`;
-      if (args.html) cmd += " --html";
+      cmdArgs.push("reply-all", args.id, "-b", args.body);
+      if (args.html) cmdArgs.push("--html");
       if (args.attachments && args.attachments.length > 0) {
         for (const file of args.attachments) {
-          cmd += ` -a '${shellEscape(file)}'`;
+          cmdArgs.push("-a", file);
         }
       }
     } else if (name === "attachment") {
-      cmd += ` attachment '${shellEscape(args.id)}'`;
-      if (args.output_dir) cmd += ` -o '${shellEscape(args.output_dir)}'`;
+      cmdArgs.push("attachment", args.id);
+      if (args.output_dir) cmdArgs.push("-o", args.output_dir);
     } else {
       return { content: [{ type: "text", text: `Unknown tool: ${name}` }] };
     }
 
-    const output = execSync(cmd, { encoding: "utf-8" });
+    const output = execFileSync(cmdArgs[0], cmdArgs.slice(1), { encoding: "utf-8" });
     return { content: [{ type: "text", text: output }] };
   } catch (err) {
     return {
