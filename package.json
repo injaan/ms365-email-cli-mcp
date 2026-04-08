@@ -3,7 +3,9 @@
   "version": "1.0.4",
   "description": "MCP server wrapper around ms365-email-cli for mailbox operations.",
   "main": "index.js",
-  "bin": "./index.js",
+  "bin": {
+    "ms365-email-cli-mcp": "index.js"
+  },
   "scripts": {
     "start": "node index.js",
     "lint": "node --check index.js",
