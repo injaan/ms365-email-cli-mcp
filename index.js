@@ -249,7 +249,7 @@ function normalizeEmailList(value) {
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args = {} } = request.params;
-  const cmdArgs = ["ms365-email-cli"];
+  const cmdArgs = [];
 
   try {
     if (name === "list_emails") {
@@ -307,7 +307,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       return { content: [{ type: "text", text: `Unknown tool: ${name}` }] };
     }
 
-    const output = execFileSync(cmdArgs[0], cmdArgs.slice(1), { encoding: "utf-8" });
+    const cliCommand = process.platform === "win32" ? "ms365-email-cli.cmd" : "ms365-email-cli";
+    const output = execFileSync(cliCommand, cmdArgs, { encoding: "utf-8" });
     return { content: [{ type: "text", text: output }] };
   } catch (err) {
     return {
