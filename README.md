@@ -1,4 +1,18 @@
-# @injaan.dev/ms365-email-cli-mcp
+# @injaan.dev/ms365-email-cli-mcp (DEPRECATED)
+
+## Deprecated Notice
+
+This project is deprecated and discontinued.
+
+Use `@injaan.dev/ms365-email-cli` instead, which now includes the MCP server feature natively.
+
+Migration target:
+
+```bash
+npm install -g @injaan.dev/ms365-email-cli
+```
+
+Reason for deprecation: the original `@injaan.dev/ms365-email-cli` project has embedded MCP support, so this wrapper package is no longer needed.
 
 Model Context Protocol (MCP) server wrapper for `ms365-email-cli`.
 
@@ -224,3 +238,17 @@ If tools do not appear, confirm your client process can resolve both `ms365-emai
    npm version patch
    npm publish
    ```
+
+## npm Deprecation (maintainers)
+
+Mark published versions as deprecated on npm so users see a warning on install:
+
+```bash
+npm deprecate "@injaan.dev/ms365-email-cli-mcp@*" "Deprecated and discontinued. Use @injaan.dev/ms365-email-cli with built-in MCP server."
+```
+
+If needed, deprecate a specific range instead of all versions:
+
+```bash
+npm deprecate "@injaan.dev/ms365-email-cli-mcp@<=1.0.7" "Deprecated and discontinued. Use @injaan.dev/ms365-email-cli with built-in MCP server."
+```

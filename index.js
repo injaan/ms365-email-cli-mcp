@@ -7,7 +7,7 @@ const {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } = require("@modelcontextprotocol/sdk/types.js");
-const { execFileSync } = require("child_process");
+const { execFileSync, spawnSync } = require("child_process");
 
 const server = new Server(
   { name: "ms365-email-cli", version: "1.0.0" },
@@ -308,7 +308,20 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     }
 
     const cliCommand = process.platform === "win32" ? "ms365-email-cli.cmd" : "ms365-email-cli";
-    const output = execFileSync(cliCommand, cmdArgs, { encoding: "utf-8" });
+    const spawnArgs = process.platform === "win32" ? ["/c", cliCommand, ...cmdArgs] : cmdArgs;
+    const spawnCmd = process.platform === "win32" ? "cmd" : cliCommand;
+    const result = spawnSync(spawnCmd, spawnArgs, { encoding: "utf-8" });
+    
+    if (result.error) {
+      throw new Error(result.error.message);
+    }
+    
+    const output = (result.stdout || "") + (result.stderr || "");
+    
+    if (result.status !== 0 && result.stderr) {
+      throw new Error(result.stderr.trim());
+    }
+    
     return { content: [{ type: "text", text: output }] };
   } catch (err) {
     return {

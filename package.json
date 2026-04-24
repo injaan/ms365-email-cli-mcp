@@ -1,7 +1,7 @@
 {
   "name": "@injaan.dev/ms365-email-cli-mcp",
-  "version": "1.0.6",
-  "description": "MCP server wrapper around ms365-email-cli for mailbox operations.",
+  "version": "1.0.7",
+  "description": "DEPRECATED: Replaced by built-in MCP server in @injaan.dev/ms365-email-cli.",
   "main": "index.js",
   "bin": {
     "ms365-email-cli-mcp": "index.js"
@@ -22,7 +22,9 @@
     "model-context-protocol",
     "ms365",
     "email",
-    "cli"
+    "cli",
+    "deprecated",
+    "discontinued"
   ],
   "author": "",
   "repository": {
