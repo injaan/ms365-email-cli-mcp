@@ -1,6 +1,6 @@
 {
   "name": "@injaan.dev/ms365-email-cli-mcp",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "DEPRECATED: Replaced by built-in MCP server in @injaan.dev/ms365-email-cli.",
   "main": "index.js",
   "bin": {
